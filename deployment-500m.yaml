@@ -1,0 +1,33 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: dapi-go-limits-500m
+  namespace: default
+spec:
+  containers:
+    - name: test-container
+      image: registry.k8s.io/busybox
+      resources:
+        limits:
+          memory: 128Mi
+          cpu: "500m"
+      command: [ "sh", "-c"]
+      args:
+      - while true; do
+          echo -en '\n';
+          printenv GOMEMLIMIT;
+          printenv GOMAXPROCS;
+          sleep 10;
+        done;
+      env:
+        - name: GOMEMLIMIT
+          valueFrom:
+            resourceFieldRef:
+              containerName: test-container
+              resource: limits.memory
+        - name: GOMAXPROCS
+          valueFrom:
+            resourceFieldRef:
+              containerName: test-container
+              resource: limits.cpu
+  restartPolicy: Never
