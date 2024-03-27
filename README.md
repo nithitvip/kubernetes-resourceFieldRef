@@ -57,6 +57,8 @@ result
 ---
 
 divisor on kubernetes
+https://kubernetes.io/docs/tasks/inject-data-application/downward-api-volume-expose-pod-information/
+
 ex
 ```yaml
 apiVersion: v1
